@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 
 const INITIAL_VALUES = {
     name: '',
@@ -46,15 +48,21 @@ const Registration = () => {
             >
                 {({ isSubmitting }) => (
                     <Form>
-                        <Field type="text" name="name" />
+                        <Field type="text" name="name" placeholder='Enter name' />
+                        <br />
                         <ErrorMessage name="name" component="div" />
-
-                        <Field type="email" name="email" />
+                        <br />
+                        <Field type="email" name="email" placeholder='Enter email'/>
+                        <br />
                         <ErrorMessage name="email" component="div" />
+                        <br />
 
-                        <Field type="password" name="password" />
+                        <Field type="password" name="password" placeholder='Enter password' />
+                        <br />
                         <ErrorMessage name="password" component="div" />
-                        <Field type="password" name="passwordRepeat" />
+                        <br />
+                        <Field type="password" name="passwordRepeat" placeholder='Repeat password'/>
+                        <br />
                         <ErrorMessage name="passwordRepeat" component="div" />
 
                         <button type="submit" disabled={isSubmitting}>
@@ -63,8 +71,9 @@ const Registration = () => {
                     </Form>
                 )}
             </Formik>
+            <Link to={routes.login}>Have an account? Login here!</Link>
         </div >)
 
 }
 
-export { Registration };
+export  {Registration}
