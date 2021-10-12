@@ -55,6 +55,7 @@ const Login = () => {
                     /* and other goodies */
                 }) => (
                     <form onSubmit={handleSubmit}>
+                        <label htmlFor="email">Email </label>
                         <input
                             type="email"
                             name="email"
@@ -64,8 +65,10 @@ const Login = () => {
                             placeholder='Enter email'
                         />
                         <br />
-                        {errors.email && touched.email && errors.email}
                         <br />
+                        {errors.email && touched.email && errors.email}
+
+                        <label htmlFor="email">Password </label>
                         <input
                             type="password"
                             name="password"
@@ -74,15 +77,15 @@ const Login = () => {
                             value={values.password}
                             placeholder='Enter password'
                         />
-                        <br />
+
                         {errors.password && touched.password && errors.password}
-                        <br />
                         <button type="submit" disabled={isSubmitting}>
                             Submit
                         </button>
                     </form>
                 )}
             </Formik>
+            <br />
             <Link to={routes.registration}>Do not have account? Register here!</Link>
         </div >)
 
