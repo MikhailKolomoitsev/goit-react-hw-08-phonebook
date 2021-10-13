@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
 import { routes } from 'routes';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const INITIAL_VALUES = {
     email: '',
@@ -15,11 +17,17 @@ const Login = () => {
         (values) => {
             const errors = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Required🧐';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Invalid email address😢';
+            }
+
+            if (!values.password) {
+                errors.password = 'Required🧐';
+            } else if (values.password.length < 7 || values.password.length > 15) {
+                errors.password = 'Invalid value, password should have  7-15 symbols😉';
             }
             return errors;
         },
@@ -55,33 +63,41 @@ const Login = () => {
                     /* and other goodies */
                 }) => (
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="email">Email </label>
-                        <input
-                            type="email"
+                        <TextField
+                            fullWidth
+                            id="email"
                             name="email"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
+                            label="Email"
+                            type="email"
                             value={values.email}
-                            placeholder='Enter email'
-                        />
-                        <br />
-                        <br />
-                        {errors.email && touched.email && errors.email}
-
-                        <label htmlFor="email">Password </label>
-                        <input
-                            type="password"
-                            name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.password}
-                            placeholder='Enter password'
+                            error={touched.email && Boolean(errors.email)}
+                            helperText={touched.email && errors.email}
                         />
+                        <br />
+                        <TextField
+                            fullWidth
+                            id="login"
+                            name="password"
+                            label="Password"
+                            type="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.password && Boolean(errors.password)}
+                            helperText={touched.password && errors.password}
+                        />
+                        <br />
+                        <br />
 
-                        {errors.password && touched.password && errors.password}
-                        <button type="submit" disabled={isSubmitting}>
+                        <Button color="primary" variant="contained"  type="submit" disabled={isSubmitting ||
+                            !((
+                                Object.keys(touched).length ===
+                                Object.keys(INITIAL_VALUES).length
+                            ) && Object.keys(errors).length === 0)}>
                             Submit
-                        </button>
+                        </Button>
                     </form>
                 )}
             </Formik>

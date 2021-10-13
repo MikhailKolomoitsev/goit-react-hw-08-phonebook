@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const INITIAL_VALUES = {
     name: '',
@@ -19,9 +21,9 @@ const Registration = () => {
 
             if (!values.name) {
                 errors.name = 'Required🧐';
-            } else if (values.name.length<2) {
+            } else if (values.name.length < 2) {
                 errors.name = 'Invalid name😢';
-            } else { errors.name = 'thats good😃'}
+            }
 
             if (!values.email) {
                 errors.email = 'Required🧐';
@@ -29,13 +31,13 @@ const Registration = () => {
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
                 errors.email = 'Invalid email address😢';
-            } else { errors.email = 'thats good😃' }
+            }
 
-            if (!values.passwrod) {
-                errors.passwrod = 'Required🧐';
-            } else if (values.passwrod.length < 7 || values.passwrod.length > 15) {
-                errors.passwrod = 'Invalid value, password should have  7-15 symbols😉';
-            } else { errors.passwrod = 'thats good😃' }
+            if (!values.password) {
+                errors.password = 'Required🧐';
+            } else if (values.password.length < 7 || values.password.length > 15) {
+                errors.password = 'Invalid value, password should have  7-15 symbols😉';
+            }
 
             if (!values.confirmPassword) {
                 errors.confirmPassword = 'Required🧐';
@@ -43,9 +45,6 @@ const Registration = () => {
                 errors.confirmPassword = 'Invalid value, password should have  7-15 symbols😉';
             } else if (values.confirmPassword !== values.password) {
                 errors.confirmPassword = 'Passwords do not match😢';
-            }
-            else if (values.confirmPassword === values.password) {
-                errors.confirmPassword = '😃Ayai, passwords match😃';
             }
             return errors;
         },
@@ -70,33 +69,68 @@ const Registration = () => {
                 validate={validate}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, errors, touched, handleChange, handleBlur, values }) => (
                     <Form>
-                        <label htmlFor="name">Name </label>
-                        <Field type="text" name="name" placeholder='Enter name' />
+                        <TextField
+                            fullWidth
+                            id="name"
+                            name="name"
+                            label="Name"
+                            type="name"
+                            value={values.name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.name && Boolean(errors.name)}
+                            helperText={touched.name && errors.name}
+                        />
                         <br />
+                        <TextField
+                            fullWidth
+                            id="email"
+                            name="email"
+                            label="Email"
+                            type="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.email && Boolean(errors.email)}
+                            helperText={touched.email && errors.email}
+                        />
                         <br />
-                        <ErrorMessage name="name" component="div" />
-            
-                        <label htmlFor="email">Email Address </label>
-                        <Field type="email" name="email" placeholder='Enter email'/>
+                        <TextField
+                            fullWidth
+                            id="password"
+                            name="password"
+                            label="Password"
+                            type="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.password && Boolean(errors.password)}
+                            helperText={touched.password && errors.password}
+                        />
                         <br />
+                        <TextField
+                            fullWidth
+                            maxWidth="50px"
+                            id="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            type="password"
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                            helperText={touched.confirmPassword && errors.confirmPassword}
+                        />
                         <br />
-                        <ErrorMessage name="email" component="div" />
-                        <br />
-                        <label htmlFor="password">Password </label>
-                        <Field type="password" name="password" placeholder='Enter password' />
-                        <br />
-                        <ErrorMessage name="password" component="div" />
-                        <br />
-                        <label htmlFor="passwordRepeat">Confirm Password </label>
-                        <Field type="password" name="confirmPassword" placeholder='Enter password again'/>
-                        <br />
-                        <ErrorMessage name="confirmPassword" component="div" />
-
-                        <button type="submit" disabled={isSubmitting}>
+                        <Button color="primary" variant="contained" type="submit" disabled={isSubmitting ||
+                            !((
+                                Object.keys(touched).length ===
+                                Object.keys(INITIAL_VALUES).length
+                            ) && Object.keys(errors).length === 0)}>
                             Submit
-                        </button>
+                        </Button>
                     </Form>
                 )}
             </Formik>
@@ -105,4 +139,4 @@ const Registration = () => {
 
 }
 
-export  {Registration}
+export { Registration }
