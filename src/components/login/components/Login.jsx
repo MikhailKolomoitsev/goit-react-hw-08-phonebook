@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useCallback } from 'react';
 import { routes } from 'routes';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -13,6 +12,10 @@ const INITIAL_VALUES = {
 
 
 const Login = () => {
+    const [showPassword, setshowPassword] = useState(false)
+    const togglePassword = useCallback(() => {
+        setshowPassword(prev => !prev)
+    }, [])
     const validate = useCallback(
         (values) => {
             const errors = {};
@@ -65,6 +68,7 @@ const Login = () => {
                     <form onSubmit={handleSubmit}>
                         <TextField
                             fullWidth
+                            style={{ maxWidth: "350px" }}
                             id="email"
                             name="email"
                             label="Email"
@@ -78,16 +82,18 @@ const Login = () => {
                         <br />
                         <TextField
                             fullWidth
+                            style={{ maxWidth: "350px" }}
                             id="login"
                             name="password"
                             label="Password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
+                        <button onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</button>
                         <br />
                         <br />
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,10 @@ const INITIAL_VALUES = {
 
 
 const Registration = () => {
+    const [showPassword, setshowPassword] = useState(false)
+    const togglePassword = useCallback(() => {
+        setshowPassword(prev=>!prev)
+    }, [])
     const validate = useCallback(
         (values) => {
             const errors = {};
@@ -72,6 +76,7 @@ const Registration = () => {
                 {({ isSubmitting, errors, touched, handleChange, handleBlur, values }) => (
                     <Form>
                         <TextField
+                            style={{ maxWidth: "350px" }}
                             fullWidth
                             id="name"
                             name="name"
@@ -85,6 +90,7 @@ const Registration = () => {
                         />
                         <br />
                         <TextField
+                            style={{ maxWidth: "350px" }}
                             fullWidth
                             id="email"
                             name="email"
@@ -98,31 +104,37 @@ const Registration = () => {
                         />
                         <br />
                         <TextField
+                            style={{ maxWidth: "350px" }}
                             fullWidth
                             id="password"
                             name="password"
                             label="Password"
-                            type="password"
+                            type={showPassword ? 'text':'password'}
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
+                        <button onClick={togglePassword}>{showPassword ? 'Hide password':'Show password'}</button>
+                        <br />
                         <br />
                         <TextField
+                            style={{ maxWidth: "350px" }}
                             fullWidth
                             maxWidth="50px"
                             id="password"
                             name="confirmPassword"
                             label="Confirm Password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             value={values.confirmPassword}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                             helperText={touched.confirmPassword && errors.confirmPassword}
+                            
                         />
+                        
                         <br />
                         <Button color="primary" variant="contained" type="submit" disabled={isSubmitting ||
                             !((
