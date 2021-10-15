@@ -5,38 +5,39 @@ const URL = 'https://connections-api.herokuapp.com';
 axios.defaults.baseURL = URL;
 
 
-export const fetchContacts=createAsyncThunk(
+export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
-  async (_, {rejectWithValue}) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const contacts =await axios.get('/contacts')
+      const contacts = await axios.get('/contacts')
       return contacts.data
     } catch (error) {
       return rejectWithValue(error.message)
     }
-   
+
   }
 )
-export const addContact=createAsyncThunk(
+export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async ({name, number}, {rejectWithValue})=>{
+  async ({ name, number }, { rejectWithValue }) => {
     try {
-      const contact= await axios.post('/contacts', {name, number})
+      const contact = await axios.post('/contacts', { name, number })
       return contact.data
     } catch (error) {
       return rejectWithValue(error.message)
     }
-})
+  })
 
-export const deleteContact=createAsyncThunk(
+export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (contactID, {rejectWithValue})=>{
+  async (contactID, { rejectWithValue }) => {
     try {
-      const contact= await axios.delete(`contacts/${contactID}`)
+      const contact = await axios.delete(`contacts/${contactID}`)
       return contactID
     } catch (error) {
       return rejectWithValue(error.message)
-    }}
+    }
+  }
 )
 
 // export const deleteContact=contactID=>dispatch=>{

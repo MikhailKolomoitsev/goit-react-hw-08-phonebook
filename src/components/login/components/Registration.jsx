@@ -1,8 +1,10 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from 'utils/routes';
+import { useDispatch } from 'react-redux';
+import { register } from '../thunk';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -15,9 +17,11 @@ const INITIAL_VALUES = {
 
 
 const Registration = () => {
+    const dispatch = useDispatch()
+
     const [showPassword, setshowPassword] = useState(false)
     const togglePassword = useCallback(() => {
-        setshowPassword(prev=>!prev)
+        setshowPassword(prev => !prev)
     }, [])
     const validate = useCallback(
         (values) => {
@@ -56,8 +60,12 @@ const Registration = () => {
     )
 
     const handleSubmit = useCallback(
+        const  {name, email, passowrd}=values
+
+
         (values, { setSubmitting }) => {
-            setTimeout(() => {
+    setTimeout(() => {
+        dispatch(register({ name, email, passowrd }))
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
             }, 400);
@@ -109,14 +117,14 @@ const Registration = () => {
                             id="password"
                             name="password"
                             label="Password"
-                            type={showPassword ? 'text':'password'}
+                            type={showPassword ? 'text' : 'password'}
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
-                        <button onClick={togglePassword}>{showPassword ? 'Hide password':'Show password'}</button>
+                        <button onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</button>
                         <br />
                         <br />
                         <TextField
@@ -132,9 +140,9 @@ const Registration = () => {
                             onBlur={handleBlur}
                             error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                             helperText={touched.confirmPassword && errors.confirmPassword}
-                            
+
                         />
-                        
+
                         <br />
                         <Button color="primary" variant="contained" type="submit" disabled={isSubmitting ||
                             !((
