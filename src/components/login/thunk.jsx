@@ -11,12 +11,12 @@ import {
     logoutFailure
 } from './slice'
 
-const token = {
+const TOKEN = {
     set(token) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     },
     unset() {
-        axios.defaults.headers.common.Authorization = '';
+        axios.defaults.headers.common.Authorization = "";
     },
 };
 
@@ -29,7 +29,7 @@ export function register(user) {
             .post(`${ACCOUNT_BASE_URL}/users/signup`, { ...user })
             .then(function (response) {
                 const { user: { name, email }, token } = response.data
-                token.set(token);
+                TOKEN.set(token);
                 dispatch(registerSuccess({ name, email, token }))
             }).catch(function (error) { dispatch(registerFailure({ error: error.toString() })) })
     }
@@ -44,7 +44,7 @@ export function login(credentials) {
             .then(function (response) {
                 const { user: { name, email }, token } = response.data
                 dispatch(loginSuccess({ name, email, token }))
-                token.set(token);
+                TOKEN.set(response.data.token);
                 console.log(axios.defaults.headers.common.Authorization);
             }).catch(function (error) { dispatch(loginFailure({ error: error.toString() })) })
     }
@@ -58,7 +58,7 @@ export function logout(token) {
             .post(`${ACCOUNT_BASE_URL}/users/logout`, token)
             .then(function (response) {
                 dispatch(logoutSuccess(response.data))
-                token.unset();
+                TOKEN.unset();
             }).catch(function (error) { dispatch(logoutFailure({ error: error.toString() })) })
     }
 }

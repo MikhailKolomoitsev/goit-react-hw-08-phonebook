@@ -29,9 +29,11 @@ export const loginSlice = createSlice({
         loginFailure: (state, action) => {
             state.error = action.payload.error
         },
-        logoutSuccess: (state) => {
-            state.name = '';
-            state.email=''
+        logoutSuccess: (state, action) => {
+            state.user = '';
+            state.email = '';
+            state.token = '';
+            state.error = '';
         },
         logoutFailure: (state, action)=>{},
     }
