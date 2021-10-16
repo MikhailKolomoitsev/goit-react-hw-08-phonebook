@@ -96,7 +96,7 @@ const Login = () => {
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
-                        <button onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</button>
+                        <Button color="success" size="small" onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</Button>
                         <br />
                         <br />
 

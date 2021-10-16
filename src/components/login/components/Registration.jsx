@@ -119,7 +119,6 @@ const Registration = () => {
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
-                        <button onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</button>
                         <br />
                         <br />
                         <TextField
@@ -137,7 +136,8 @@ const Registration = () => {
                             helperText={touched.confirmPassword && errors.confirmPassword}
 
                         />
-
+                        <Button color="success" size="small" onClick={togglePassword}>{showPassword ? 'Hide password' : 'Show password'}</Button>
+                        <br />
                         <br />
                         <Button color="primary" variant="contained" type="submit" disabled={isSubmitting ||
                             !((
