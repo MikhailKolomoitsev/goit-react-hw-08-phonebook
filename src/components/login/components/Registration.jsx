@@ -60,17 +60,12 @@ const Registration = () => {
     )
 
     const handleSubmit = useCallback(
-        const  {name, email, passowrd}=values
-
-
         (values, { setSubmitting }) => {
-    setTimeout(() => {
-        dispatch(register({ name, email, passowrd }))
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-            }, 400);
+            const { name, email, password } = values
+            dispatch(register({ name, email, password }))
+            setSubmitting(false)
         },
-        []
+        [dispatch]
     )
 
     return (

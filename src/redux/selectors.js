@@ -2,7 +2,8 @@ import { createSelector } from "reselect"
 
 export const getContacts = ({ contacts }) => contacts.entities
 export const getFilter = ({ filter }) => filter
-export const getisLoggedIn = () => false
+export const getisLoggedIn = state=> state.user.token
+export const getToken = getisLoggedIn
 
 export const getFilteredContacts = createSelector(
     [getFilter, getContacts],

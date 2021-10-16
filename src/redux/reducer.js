@@ -3,6 +3,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { fetchContacts } from './operations'
 import { changeFilter } from './actions'
 import { addContact, deleteContact } from './operations'
+import userReducer from 'components/login/slice'
+
 const entities = createReducer([], {
   [fetchContacts.fulfilled]: (_, action) => {
     return action.payload

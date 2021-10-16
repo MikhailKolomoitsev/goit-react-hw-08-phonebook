@@ -4,6 +4,8 @@ import { routes } from 'utils/routes';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { useDispatch } from 'react-redux';
+import { login } from '../thunk';
 
 const INITIAL_VALUES = {
     email: '',
@@ -12,6 +14,8 @@ const INITIAL_VALUES = {
 
 
 const Login = () => {
+    const dispatch = useDispatch()
+
     const [showPassword, setshowPassword] = useState(false)
     const togglePassword = useCallback(() => {
         setshowPassword(prev => !prev)
@@ -39,12 +43,11 @@ const Login = () => {
 
     const handleSubmit = useCallback(
         (values, { setSubmitting }) => {
-            setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-            }, 400);
+            const {email, password } = values
+            dispatch(login({ email, password }))
+            setSubmitting(false)
         },
-        []
+        [dispatch]
     )
 
     return (
