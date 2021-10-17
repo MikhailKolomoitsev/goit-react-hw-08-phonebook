@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { addContact } from 'redux/operations'
 
+
  function Form({ onSubmit }) {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
