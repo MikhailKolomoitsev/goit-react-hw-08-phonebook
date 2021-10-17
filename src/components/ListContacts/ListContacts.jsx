@@ -2,30 +2,40 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import {fetchContacts, deleteContact} from 'redux/operations'
+import { fetchContacts, deleteContact } from 'redux/operations'
 import * as selectors from 'redux/selectors'
 import { useSelector, useDispatch } from "react-redux";
+import { ListItem, List } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
-function ListContacts({onClick}) {
-   const dispatch = useDispatch()
-   useEffect(() => {
+
+function ListContacts({ onClick }) {
+  const dispatch = useDispatch()
+  useEffect(() => {
     dispatch(fetchContacts())
-   }, [dispatch])
+  }, [dispatch])
 
-   const contacts=useSelector(selectors.getFilteredContacts)
+  const contacts = useSelector(selectors.getFilteredContacts)
 
-  return (<ul>
-    {contacts.length>0 && contacts.map(({ id, name, number }) => (
-      <li key={id}>
+  return (<List
+    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+    component="nav"
+    aria-labelledby="nested-list-subheader" >
+    {contacts.length > 0 && contacts.map(({ id, name, number }) => (
+      <ListItem
+        key={id}
+      >
         {name} {number}
-        <button type="button" id={id} onClick={(e)=>
+        <Button
+          variant="outlined"
+          id={id} onClick={(e) =>
           onClick(e.target.id)
-          }>
+        }>
           delete
-        </button>
-      </li>
+        </Button>
+      </ListItem>
     ))}
-  </ul>)
+  </List >)
 }
 
 // ListContacts.propTypes = {
