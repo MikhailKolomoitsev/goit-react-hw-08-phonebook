@@ -1,10 +1,15 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit'
+// import { getisLoggedIn } from './selectors';
 
 const URL = 'https://connections-api.herokuapp.com';
-axios.defaults.baseURL = URL;
+// if (getisLoggedIn()) {
+//   const TOKEN = getisLoggedIn()
 
+//   axios.defaults.headers.common.Authorization = `Bearer ${TOKEN}`;
+// }
 
+  axios.defaults.baseURL = URL;
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async (_, { rejectWithValue }) => {

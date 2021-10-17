@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {changeFilter} from "redux/actions";
-import { useSelector,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import TextField from '@material-ui/core/TextField';
 
 export default  function Filter (){
   const id = uuidv4();
@@ -11,8 +12,8 @@ export default  function Filter (){
 
   return (
     <>
-      <label htmlFor={id}>   </label>
-      <input id={id}
+      <TextField id={id}
+        label="Filter via name"
        type="text"  
        onChange={(e)=>{
          dispatch(changeFilter(e.target.value))

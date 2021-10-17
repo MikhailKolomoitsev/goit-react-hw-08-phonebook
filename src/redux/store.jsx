@@ -8,7 +8,7 @@ import logger from "redux-logger";
 const persistConfig = {
   key: "auth",
   storage,
-  whitelist: ["token"],
+  whitelist: ["name", "email", "token"],
 };
 const persistedReducer = persistReducer(persistConfig, userReducer);
 

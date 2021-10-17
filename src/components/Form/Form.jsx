@@ -1,47 +1,100 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { addContact } from 'redux/operations'
+import { Formik } from 'formik';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { useDispatch } from 'react-redux';
 
 
- function Form({ onSubmit }) {
-  const [name, setName] = useState('')
-  const [number, setNumber] = useState('')
-  const handleNameChange = (e) => setName(e.currentTarget.value)
-  const handleNumberChange = (e) => setNumber(e.currentTarget.value)
-  const handleSubmit = (e) => {
-    e.preventDefault()
+const INITIAL_VALUES = {
+  name: '',
+  number: ''
+}
+
+function Form({ onSubmit }) {
+  const dispatch = useDispatch()
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    const { name, number } = values
     onSubmit({ name, number })
-    setName('')
-    setNumber('')
-  }
+   }
+   
+   const validate = useCallback(
+     (values) => {
+       const errors = {};
+       if (!values.name) {
+         errors.name = 'Required🧐';
+       } else if (values.name.length < 2) {
+         errors.name = 'Invalid name😢';
+       }
+       if (!values.number) {
+         errors.number = 'Required🧐';
+       } else if (values.number.length < 7 || values.number.length > 15) {
+         errors.number = 'Invalid value, number should have  7-15 symbols😉';
+       }
+       return errors;
+     },
+     []
+   )
+
   return (
-    <form type="submit" onSubmit={handleSubmit}>
-      <label>
-        Name
-        <input
-          value={name}
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-          required
-          onChange={handleNameChange}
-        />
-      </label>
-      <label>
-        Number
-        <input
-          value={number}
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-          required
-          onChange={handleNumberChange}
-        />
-      </label>
-      <button type="submit">Add contact</button>
-    </form>
+    <Formik
+      initialValues={INITIAL_VALUES}
+      validate={validate}
+      onSubmit={handleSubmit}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            style={{ maxWidth: "350px" }}
+            id="name"
+            name="name"
+            label="Name"
+            type="text"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.name && Boolean(errors.name)}
+            helperText={touched.name && errors.name}
+          />
+          <br />
+          <TextField
+            fullWidth
+            style={{ maxWidth: "350px" }}
+            id="login"
+            name="number"
+            label="Number"
+            type='number' 
+            value={values.number}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.number && Boolean(errors.number)}
+            helperText={touched.number && errors.number}
+          />
+          <br />
+          <br />
+
+          <Button color="primary" variant="contained" type="submit" disabled={isSubmitting ||
+            !((
+              Object.keys(touched).length ===
+              Object.keys(INITIAL_VALUES).length
+            ) && Object.keys(errors).length === 0)}>
+            Add contact
+          </Button>
+        </form>
+      )}
+    </Formik>
   )
 }
 const mapDispatchToProrps = (dispatch) => ({
