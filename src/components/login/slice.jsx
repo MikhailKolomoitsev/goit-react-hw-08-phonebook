@@ -1,51 +1,60 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getisLoggedIn } from "redux/selectors";
+import { createSlice } from '@reduxjs/toolkit'
+// import { getisLoggedIn } from 'redux/selectors'
 
 export const INITIAL_STATE = {
-    name: "",
-    email: "",
-    token:"",
-    error:"",
+  name: null,
+  email: null,
+  token: null,
+  error: false,
 }
 
-
 export const loginSlice = createSlice({
-    name: "user",
-    initialState: INITIAL_STATE,
-    reducers: {
-        registerSuccess: (state, action) => {
-            state.name = action.payload.name;
-            state.email = action.payload.email;
-            state.token = action.payload.token;
-        },
-        registerFailure: (state, action) => {
-            state.error=action.payload.error
-        },
-        loginSuccess: (state, action) => {
-            state.name = action.payload.name;
-            state.email = action.payload.email;
-            state.token = action.payload.token;
-        },
-        loginFailure: (state, action) => {
-            state.error = action.payload.error
-        },
-        logoutSuccess: (state, action) => {
-            state.user = '';
-            state.email = '';
-            state.token = '';
-            state.error = '';
-        },
-        logoutFailure: (state, action)=>{},
-    }
+  name: 'user',
+  initialState: INITIAL_STATE,
+  reducers: {
+    currentSuccess: (state, { payload }) => {
+      state.name = payload.name
+      state.email = payload.email
+    },
+    currentFailure: (state, { payload }) => {
+      state.error = payload.error
+    },
+    registerSuccess: (state, { payload }) => {
+      state.name = payload.name
+      state.email = payload.email
+      state.token = payload.token
+    },
+    registerFailure: (state, { payload }) => {
+      state.error = payload.error
+    },
+    loginSuccess: (state, { payload }) => {
+      state.name = payload.name
+      state.email = payload.email
+      state.token = payload.token
+    },
+    loginFailure: ({ error }, { payload }) => {
+      error = payload.error
+    },
+    logoutSuccess: ({ user }, action) => {
+      user.name = null
+      user.email = null
+      user.token = null
+    },
+    logoutFailure: ({ user }, { payload }) => {
+      user.error = payload
+    },
+  },
 })
 
 export const {
-    registerSuccess,
-    registerFailure,
-    loginSuccess,
-    loginFailure,
-    logoutSuccess,
-    logoutFailure
+  currentSuccess,
+  currentFailure,
+  registerSuccess,
+  registerFailure,
+  loginSuccess,
+  loginFailure,
+  logoutSuccess,
+  logoutFailure,
 } = loginSlice.actions
 
 export default loginSlice.reducer
