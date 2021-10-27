@@ -93,19 +93,15 @@ export function login(credentials) {
 
 export function logout() {
   return function (dispatch) {
-    dispatch({ type: 'LOGOUT_REQUEST' })
-
+    dispatch({ type: "LOGOUT_REQUEST" });
     return axios
       .post(`${ACCOUNT_BASE_URL}/users/logout`)
       .then(function (response) {
-        console.log('response logout:', response)
-
-        TOKEN.unset()
-        dispatch(logoutSuccess())
+        TOKEN.unset();
+        dispatch(logoutSuccess(response.data));
       })
       .catch(function (error) {
-        console.log('logoutFailure:', error.message)
-        dispatch(logoutFailure(error.message))
-      })
-  }
+        dispatch(logoutFailure(error.message));
+      });
+  };
 }

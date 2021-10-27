@@ -35,13 +35,13 @@ export const loginSlice = createSlice({
     loginFailure: ({ error }, { payload }) => {
       error = payload.error
     },
-    logoutSuccess: ({ user }, action) => {
-      user.name = null
-      user.email = null
-      user.token = null
+    logoutSuccess: (state, action) => {
+      state.name = null;
+      state.email = null;
+      state.token = null;
     },
-    logoutFailure: ({ user }, { payload }) => {
-      user.error = payload
+    logoutFailure: (state, { payload }) => {
+      state.error = payload;
     },
   },
 })
