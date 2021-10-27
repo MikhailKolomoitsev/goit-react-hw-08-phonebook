@@ -35,7 +35,7 @@ export default function App() {
     <>
       <header>
         <nav>
-          <ul>
+          <ul className='header-nav_list'>
             <li>
               <NavLink to={routes.home}>Home</NavLink>
             </li>
@@ -48,7 +48,7 @@ export default function App() {
                   logout
                 </Button>
               ) : (
-                <ul>
+                  <ul className='header-nav_list'>
                   <li>
                     <NavLink to={routes.login}>Login</NavLink>
                   </li>

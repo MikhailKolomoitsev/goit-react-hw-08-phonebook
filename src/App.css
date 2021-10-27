@@ -39,3 +39,17 @@
     transform: rotate(360deg);
   }
 }
+
+.header-nav_list{
+  list-style: none;
+}
+.header-nav_list a{
+  text-decoration: none;
+  color: black;
+}
+.header-nav_list a:visited{
+color: black;
+}
+.header-nav_list a:hover {
+    text-decoration: underline;
+   }
