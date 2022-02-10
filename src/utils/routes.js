@@ -1,5 +1,5 @@
 const routes = {
-  home: '/goit-react-hw-08-phonebook',
+  home: '/home',
   registration: '/registration',
   login: '/login',
   contacts: '/contacts',
